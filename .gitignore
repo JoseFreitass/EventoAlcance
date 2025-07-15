@@ -1,0 +1,15 @@
+# Arquivos de vídeo grandes
+src/Vídeo Alcance Site Evento.mp4
+*.mp4
+*.mov
+*.avi
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Dependências
+node_modules/ 

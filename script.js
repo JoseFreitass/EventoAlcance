@@ -1,5 +1,107 @@
 // Funcionalidade para as tabs de soluções
 document.addEventListener('DOMContentLoaded', function () {
+    // Forçar scroll para o topo quando a página for recarregada
+    window.scrollTo(0, 0);
+    
+    // Também garantir que o scroll seja resetado
+    if (history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+    }
+    
+    // Animação do botão "Garantir Minha Vaga" - entrada da esquerda
+    const ctaButton = document.querySelector('.btn-primary-large.cta-pulse');
+    if (ctaButton) {
+        // Adiciona a classe de animação após um pequeno delay
+        setTimeout(() => {
+            ctaButton.classList.add('animate-slide-in');
+        }, 500); // Delay de 500ms para dar tempo da página carregar
+    }
+
+    // Animação dos textos do hero - entrada de baixo para cima
+    const heroTitle = document.querySelector('.hero-content h1');
+    const heroDescription = document.querySelector('.hero-description');
+    
+    if (heroTitle) {
+        setTimeout(() => {
+            heroTitle.classList.add('animate-fade-in-up');
+        }, 300); // Delay menor para o título aparecer primeiro
+    }
+    
+    if (heroDescription) {
+        setTimeout(() => {
+            heroDescription.classList.add('animate-fade-in-up');
+        }, 600); // Delay maior para a descrição aparecer depois
+    }
+
+    // Animação da seção de vídeo
+    const videoSection = document.querySelector('.video-section');
+    const videoContainer = document.querySelector('.video-section .video-container');
+    
+    if (videoSection) {
+        // Observer para animar quando a seção entrar na viewport
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Adiciona classe para ativar animações
+                    entry.target.classList.add('video-section-animated');
+                    
+                    // Anima o container do vídeo
+                    if (videoContainer) {
+                        videoContainer.style.animation = 'videoContainerEntrance 1.5s ease-out forwards';
+                    }
+                }
+            });
+        }, { threshold: 0.3 });
+        
+        videoObserver.observe(videoSection);
+    }
+
+    // Melhorar interatividade do overlay do vídeo
+    const videoOverlayInteractive = document.querySelector('.video-overlay');
+    const playButton = document.querySelector('.play-button');
+    
+    if (videoOverlayInteractive && playButton) {
+        // Efeito de hover mais responsivo
+        videoOverlayInteractive.addEventListener('mouseenter', () => {
+            playButton.style.transform = 'scale(1.1)';
+        });
+        
+        videoOverlayInteractive.addEventListener('mouseleave', () => {
+            playButton.style.transform = 'scale(1)';
+        });
+        
+        // Efeito de clique
+        playButton.addEventListener('click', () => {
+            playButton.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                playButton.style.transform = 'scale(1.1)';
+            }, 150);
+        });
+    }
+
+    // Animação dos cards dos palestrantes
+    const speakerCards = document.querySelectorAll('.speaker-profile');
+    
+    if (speakerCards.length > 0) {
+        const speakerObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    // Aplicar a mesma animação de baixo para cima para todos os cards
+                    setTimeout(() => {
+                        entry.target.classList.add('animate-from-bottom');
+                    }, index * 200); // Delay escalonado para cada card
+                }
+            });
+        }, { threshold: 0.3 });
+        
+        speakerCards.forEach(card => {
+            // Inicializar cards como invisíveis
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(50px)';
+            speakerObserver.observe(card);
+        });
+    }
+
     // Tab functionality
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
@@ -419,6 +521,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const counters = document.querySelectorAll('.metric-value, .stat-number');
 
         counters.forEach(counter => {
+            // Salvar o texto original se ainda não foi salvo
+            if (!counter.getAttribute('data-original')) {
+                counter.setAttribute('data-original', counter.innerText);
+            }
+            
             const target = parseInt(counter.innerText.replace(/[^\d]/g, ''));
             if (target > 0) {
                 const increment = target / 100;
@@ -426,21 +533,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const timer = setInterval(() => {
                     current += increment;
-                    if (current >= target) {
-                        if (counter.classList.contains('stat-number')) {
+                                    if (current >= target) {
+                    if (counter.classList.contains('stat-number')) {
+                        // Verificar se o texto original contém % ou +
+                        const originalText = counter.getAttribute('data-original') || counter.innerText;
+                        if (originalText.includes('%')) {
                             counter.innerText = target + '%';
+                        } else if (originalText.includes('+')) {
+                            counter.innerText = '+' + target;
                         } else {
-                            counter.innerText = target + (counter.innerText.includes('M') ? 'M+' : '+');
+                            counter.innerText = target;
                         }
-                        clearInterval(timer);
                     } else {
-                        const displayValue = Math.floor(current);
-                        if (counter.classList.contains('stat-number')) {
-                            counter.innerText = displayValue + '%';
-                        } else {
-                            counter.innerText = displayValue + (counter.innerText.includes('M') ? 'M+' : '+');
-                        }
+                        counter.innerText = target + (counter.innerText.includes('M') ? 'M+' : '+');
                     }
+                    clearInterval(timer);
+                } else {
+                    const displayValue = Math.floor(current);
+                    if (counter.classList.contains('stat-number')) {
+                        // Verificar se o texto original contém % ou +
+                        const originalText = counter.getAttribute('data-original') || counter.innerText;
+                        if (originalText.includes('%')) {
+                            counter.innerText = displayValue + '%';
+                        } else if (originalText.includes('+')) {
+                            counter.innerText = '+' + displayValue;
+                        } else {
+                            counter.innerText = displayValue;
+                        }
+                    } else {
+                        counter.innerText = displayValue + (counter.innerText.includes('M') ? 'M+' : '+');
+                    }
+                }
                 }, 20);
             }
         });
@@ -713,3 +836,5 @@ document.addEventListener('DOMContentLoaded', function () {
         showToast('Bem-vindo ao evento Reforma Tributária 2025!', 'success', 4000);
     }, 1500);
 }); 
+
+ 

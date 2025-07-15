@@ -7,6 +7,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 0;
 }
 
 body {
@@ -16,6 +17,7 @@ body {
     background: linear-gradient(135deg, #1a2951 0%, #0d1b3c 50%, #051225 100%);
     overflow-x: hidden;
     min-height: 100vh;
+    scroll-behavior: smooth;
 }
 
 /* Fonte secundária - Poppins */
@@ -456,52 +458,124 @@ body {
 
 /* Video Overlay Customizado */
 .video-overlay {
-    position: absolute !important;
+    position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex !important;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 1000 !important;
-    border-radius: 16px;
+    transition: all 0.3s ease;
+    animation: overlayEntrance 1s ease-out 0.5s forwards;
+    opacity: 0;
+}
+
+/* Animação de entrada do overlay */
+@keyframes overlayEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.video-overlay:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.02);
 }
 
 .overlay-content {
     text-align: center;
     color: white;
-    max-width: 300px;
+    animation: contentPulse 2s ease-in-out infinite;
+}
+
+/* Animação de pulso para o conteúdo do overlay */
+@keyframes contentPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
 }
 
 .overlay-content h3 {
     font-size: 24px;
     font-weight: 700;
-    margin: 0;
-    line-height: 1.2;
+    margin-bottom: 16px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .play-button {
     width: 80px;
     height: 80px;
+    background: linear-gradient(135deg, #01afec, #00e676);
     border-radius: 50%;
-    background: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 20px auto;
+    margin: 0 auto;
     cursor: pointer;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(1, 175, 236, 0.4);
+    animation: playButtonGlow 2s ease-in-out infinite;
+}
+
+/* Animação de brilho para o botão play */
+@keyframes playButtonGlow {
+    0%, 100% {
+        box-shadow: 0 8px 25px rgba(1, 175, 236, 0.4);
+    }
+    50% {
+        box-shadow: 0 8px 35px rgba(1, 175, 236, 0.6), 0 0 20px rgba(1, 175, 236, 0.3);
+    }
+}
+
+.play-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 40px rgba(1, 175, 236, 0.6);
 }
 
 .play-button i {
     font-size: 32px;
-    color: #1a2951;
-    margin-left: 4px; /* Ajusta posição visual do ícone play */
+    color: white !important;
+    margin-left: 4px;
+}
+
+/* Garantir que o ícone seja branco em todas as situações */
+.play-button i,
+.video-overlay .play-button i,
+.overlay-content .play-button i,
+.video-section .play-button i,
+.video-container .play-button i,
+.video-overlay .overlay-content .play-button i,
+.video-section .video-container .video-overlay .play-button i {
+    color: white !important;
+}
+
+/* Regra de máxima especificidade para garantir ícone branco */
+.video-section .video-container .video-overlay .overlay-content .play-button i {
+    color: white !important;
+}
+
+/* Sobrescrever qualquer herança de cor do botão */
+.play-button {
+    color: inherit;
+}
+
+.play-button i {
+    color: white !important;
+    fill: white !important;
 }
 
 .overlay-content p {
@@ -596,10 +670,12 @@ body {
 /* Video Section */
 .video-section {
     padding: 80px 0;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0d1b3c 100%);
     position: relative;
+    overflow: hidden;
 }
 
+/* Background animado com gradiente dinâmico */
 .video-section::before {
     content: '';
     position: absolute;
@@ -607,9 +683,53 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="video-gradient" cx="50%" cy="50%"><stop offset="0%" stop-color="%2300bcd4" stop-opacity="0.1"/><stop offset="100%" stop-color="%2300bcd4" stop-opacity="0"/></radialGradient></defs><circle cx="500" cy="500" r="200" fill="url(%23video-gradient)"/></svg>') no-repeat center;
-    background-size: 100% 100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(1, 175, 236, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 230, 118, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(1, 175, 236, 0.08) 0%, transparent 50%);
+    animation: gradientShift 8s ease-in-out infinite;
     pointer-events: none;
+}
+
+/* Animação do gradiente */
+@keyframes gradientShift {
+    0%, 100% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+/* Partículas flutuantes */
+.video-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(1, 175, 236, 0.3) 1px, transparent 1px),
+        radial-gradient(circle at 75% 75%, rgba(0, 230, 118, 0.2) 1px, transparent 1px),
+        radial-gradient(circle at 50% 10%, rgba(1, 175, 236, 0.2) 1px, transparent 1px);
+    background-size: 100px 100px, 150px 150px, 80px 80px;
+    animation: particleFloat 20s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(0px) translateX(0px);
+    }
+    50% {
+        transform: translateY(-20px) translateX(10px);
+    }
+    100% {
+        transform: translateY(0px) translateX(0px);
+    }
 }
 
 .video-section-content {
@@ -627,10 +747,68 @@ body {
     min-height: 700px;
     border-radius: 20px;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(1, 175, 236, 0.2);
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(1, 175, 236, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.4s ease;
+    animation: videoContainerEntrance 1.5s ease-out forwards;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* Animação de entrada do container do vídeo */
+@keyframes videoContainerEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Efeito hover melhorado */
+.video-section .video-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(1, 175, 236, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(1, 175, 236, 0.4);
+}
+
+/* Efeito de borda animada */
+.video-section .video-container::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #01afec, #00e676, #01afec, #00e676);
+    border-radius: 22px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: borderGlow 3s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.video-section .video-container:hover::before {
+    opacity: 0.5;
 }
 
 /* Context Section */
@@ -1752,6 +1930,7 @@ body {
 
     .play-button i {
         font-size: 24px;
+        color: white !important;
     }
 
     .custom-controls {
@@ -2034,6 +2213,7 @@ body {
 
     .play-button i {
         font-size: 20px;
+        color: white !important;
     }
 
     .overlay-content p {
@@ -2503,4 +2683,88 @@ h2 {
     .highlight-item span {
         font-size: 10px;
     }
+}
+
+/* Animação de entrada da esquerda para o botão principal */
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.btn-primary-large.animate-slide-in {
+    animation: slideInFromLeft 1s ease-out forwards;
+}
+
+/* Animação de entrada de baixo para cima para textos do hero */
+@keyframes fadeInUp {
+    0% {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.hero-content h1.animate-fade-in-up {
+    animation: fadeInUp 1.2s ease-out forwards;
+}
+
+.hero-description.animate-fade-in-up {
+    animation: fadeInUp 1.2s ease-out 0.3s forwards;
+    opacity: 0;
+}
+
+/* Animações para os cards dos palestrantes */
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromBottom {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromTop {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Classes para as animações dos palestrantes */
+.speaker-profile.animate-from-right {
+    animation: slideInFromRight 1s ease-out forwards;
+}
+
+.speaker-profile.animate-from-bottom {
+    animation: slideInFromBottom 1s ease-out forwards;
+}
+
+.speaker-profile.animate-from-top {
+    animation: slideInFromTop 1s ease-out forwards;
 }
