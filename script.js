@@ -153,8 +153,8 @@ document.addEventListener('DOMContentLoaded', function () {
         return re.test(email);
     };
 
-    // Add click tracking for buttons (analytics ready)
-    document.querySelectorAll('button, .btn-primary, .btn-secondary').forEach(button => {
+    // Add click tracking for buttons and links (analytics ready)
+    document.querySelectorAll('button, a, .btn-primary, .btn-secondary').forEach(button => {
         button.addEventListener('click', (e) => {
             const buttonText = e.target.innerText;
             const buttonClass = e.target.className;
@@ -227,38 +227,113 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize particles
     createParticles();
 
-    // Toast notification system (for future use)
-    window.showToast = (message, type = 'success') => {
-        const toast = document.createElement('div');
-        toast.className = `toast toast-${type}`;
-        toast.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 16px 24px;
-            background: ${type === 'success' ? '#22c55e' : '#ef4444'};
-            color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 10000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-        `;
-        toast.textContent = message;
+    // Video Overlay e Controles Customizados
+    const videoOverlay = document.getElementById('videoOverlay');
+    const heroVideo = document.querySelector('.hero-video');
+    const customControls = document.getElementById('customControls');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const volumeBtn = document.getElementById('volumeBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
 
-        document.body.appendChild(toast);
+    if (videoOverlay && heroVideo && customControls) {
+        // Clique no overlay para iniciar o vídeo
+        videoOverlay.addEventListener('click', function() {
+            // Esconder o overlay
+            videoOverlay.classList.add('hidden');
+            
+            // Mostrar controles customizados
+            customControls.style.display = 'flex';
+            
+            // Reproduzir vídeo
+            heroVideo.play().catch(e => {
+                console.log('Erro ao reproduzir vídeo:', e);
+                // Se houver erro, mostrar overlay novamente
+                videoOverlay.classList.remove('hidden');
+                customControls.style.display = 'none';
+            });
+        });
 
-        setTimeout(() => {
-            toast.style.transform = 'translateX(0)';
-        }, 100);
+        // Botão Play/Pause customizado
+        if (playPauseBtn) {
+            playPauseBtn.addEventListener('click', function() {
+                if (heroVideo.paused) {
+                    heroVideo.play();
+                    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i><span>Pausar</span>';
+                } else {
+                    heroVideo.pause();
+                    playPauseBtn.innerHTML = '<i class="fas fa-play"></i><span>Reproduzir</span>';
+                }
+            });
+        }
 
-        setTimeout(() => {
-            toast.style.transform = 'translateX(100%)';
-            setTimeout(() => {
-                document.body.removeChild(toast);
-            }, 300);
-        }, 3000);
-    };
+        // Controle de volume customizado
+        if (volumeSlider) {
+            volumeSlider.addEventListener('input', function() {
+                heroVideo.volume = this.value / 100;
+                updateVolumeIcon();
+            });
+        }
+
+        // Botão mute/unmute
+        if (volumeBtn) {
+            volumeBtn.addEventListener('click', function() {
+                if (heroVideo.muted) {
+                    heroVideo.muted = false;
+                    volumeSlider.value = heroVideo.volume * 100;
+                } else {
+                    heroVideo.muted = true;
+                }
+                updateVolumeIcon();
+            });
+        }
+
+        // Função para atualizar ícone do volume
+        function updateVolumeIcon() {
+            const volumeIcon = volumeBtn.querySelector('i');
+            const volumeText = volumeBtn.querySelector('span');
+            
+            if (heroVideo.muted || heroVideo.volume === 0) {
+                volumeIcon.className = 'fas fa-volume-mute';
+                volumeText.textContent = 'Som';
+            } else if (heroVideo.volume < 0.5) {
+                volumeIcon.className = 'fas fa-volume-down';
+                volumeText.textContent = 'Volume';
+            } else {
+                volumeIcon.className = 'fas fa-volume-up';
+                volumeText.textContent = 'Volume';
+            }
+        }
+
+        // Quando o vídeo for pausado
+        heroVideo.addEventListener('pause', function() {
+            if (!heroVideo.ended) {
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i><span>Reproduzir</span>';
+            }
+        });
+
+        // Quando o vídeo for reproduzido
+        heroVideo.addEventListener('play', function() {
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i><span>Pausar</span>';
+        });
+
+        // Quando o vídeo terminar
+        heroVideo.addEventListener('ended', function() {
+            videoOverlay.classList.remove('hidden');
+            customControls.style.display = 'none';
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i><span>Reproduzir</span>';
+        });
+
+        // Prevenir menu de contexto (clique direito) no vídeo
+        heroVideo.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Inicializar volume
+        updateVolumeIcon();
+    }
+
+    // Toast notification system removido - usando implementação melhorada abaixo
 });
 
 // Funcionalidades para a landing page do evento de reforma tributária
@@ -309,11 +384,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
 
-                // Add specific animations based on element
+                // Add specific animations based on element - speaker cards sem animação
                 if (entry.target.classList.contains('audience-card')) {
                     entry.target.classList.add('animate-fade-in-up');
                 } else if (entry.target.classList.contains('speaker-card')) {
-                    entry.target.classList.add('animate-slide-in-left');
+                    // Sem animação para speaker cards
                 } else if (entry.target.classList.contains('stat-card')) {
                     entry.target.classList.add('animate-slide-in-right');
                 }
@@ -327,9 +402,15 @@ document.addEventListener('DOMContentLoaded', function () {
     );
 
     animateElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        // Speaker cards sem transições para evitar animações
+        if (el.classList.contains('speaker-card')) {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+        } else {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        }
         observer.observe(el);
     });
 
@@ -403,8 +484,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Update spots every 30-60 seconds
     setInterval(updateSpots, Math.random() * 30000 + 30000);
 
-    // CTA button interactions
-    document.querySelectorAll('button, .btn-primary, .btn-primary-large, .btn-primary-massive').forEach(button => {
+    // CTA button and link interactions
+    document.querySelectorAll('button, a, .btn-primary, .btn-primary-large, .btn-primary-massive').forEach(button => {
         button.addEventListener('click', (e) => {
             const buttonText = e.target.innerText || e.target.textContent;
 
@@ -439,21 +520,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 ripple.remove();
             }, 600);
 
-            // Simulate form submission or redirect
-            if (buttonText.includes('Participar') || buttonText.includes('Garantir')) {
-                showToast('Redirecionando para inscrição...', 'success');
-
-                // Simulate loading
-                e.target.style.opacity = '0.7';
-                e.target.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Carregando...';
-
-                setTimeout(() => {
-                    // Here you would redirect to actual registration
-                    window.open('https://forms.gle/example', '_blank');
-                    e.target.style.opacity = '1';
-                    e.target.innerHTML = buttonText;
-                }, 2000);
-            }
+            // Apenas log para botões que não são CTAs de inscrição
+            // Os links de inscrição agora redirecionam diretamente via href
         });
     });
 
@@ -472,26 +540,8 @@ document.addEventListener('DOMContentLoaded', function () {
         document.head.appendChild(style);
     }
 
-    // Parallax effect for hero section
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const hero = document.querySelector('.hero');
-        const dashboard = document.querySelector('.dashboard-mockup');
-
-        if (hero && dashboard) {
-            const heroHeight = hero.offsetHeight;
-            const scrollProgress = scrolled / heroHeight;
-
-            if (scrollProgress <= 1) {
-                dashboard.style.transform = `
-                    perspective(1000px) 
-                    rotateY(${-5 + scrollProgress * 2}deg) 
-                    rotateX(${5 - scrollProgress * 2}deg) 
-                    translateY(${scrollProgress * 20}px)
-                `;
-            }
-        }
-    });
+    // Parallax effect for hero section - REMOVED
+    // Animação removida para evitar que o vídeo fique torto durante o scroll
 
     // Removed typing effect to prevent HTML tag issues
 
@@ -536,34 +586,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     createCountdown();
 
-    // Mouse tracking for interactive elements
-    const trackMouse = (e) => {
-        const cards = document.querySelectorAll('.audience-card, .speaker-card');
-
-        cards.forEach(card => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
-
-                card.style.transform = `
-                    perspective(1000px) 
-                    rotateX(${rotateX}deg) 
-                    rotateY(${rotateY}deg) 
-                    translateZ(10px)
-                `;
-            } else {
-                card.style.transform = '';
-            }
-        });
-    };
-
-    document.addEventListener('mousemove', trackMouse);
+    // Mouse tracking for interactive elements - MODIFICADO
+    // Removido video-container para evitar rotações indesejadas
+    // Mouse tracking removido para evitar animações nos cards
+    // const trackMouse = (e) => {
+    //     const cards = document.querySelectorAll('.audience-card, .speaker-card');
+    //     // Função removida para eliminar animações de rotação 3D
+    // };
 
     // Form validation for future contact forms
     window.validateForm = (formData) => {
