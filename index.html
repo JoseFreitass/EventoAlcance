@@ -51,28 +51,22 @@
             <div class="video-section-content">
                 <div class="video-container">
                     <video 
-                        class="hero-video" 
+                        id="heroVideo" 
+                        class="hero-video"
+                        poster="src/poster.png"
+                        controls
+                        loop
+                        playsinline
                         controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
                         disablePictureInPicture
                         preload="metadata"
                         oncontextmenu="return false;"
                         style="outline: none;"
                     >
-                        <source src="src/Vídeo Alcance Site Evento.mp4" type="video/mp4">
-                        <p>Seu navegador não suporta vídeos HTML5. <a href="src/Vídeo Alcance Site Evento.mp4">Clique aqui para baixar o vídeo</a>.</p>
+                        <source src="src/video.mp4" type="video/mp4">
+                        <p>Seu navegador não suporta vídeos HTML5. <a href="src/video.mp4">Clique aqui para baixar o vídeo</a>.</p>
                     </video>
                     
-                    <!-- Overlay customizado para play -->
-                    <div class="video-overlay" id="videoOverlay">
-                        <div class="overlay-content">
-                            <h3>APERTE AQUI</h3>
-                            <h3>E ASSISTA</h3>
-                            <div class="play-button">
-                                <i class="fas fa-play"></i>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Controles customizados embaixo do vídeo -->
                     <div class="custom-controls" id="customControls" style="display: none;">
                         <div class="controls-left">
@@ -91,6 +85,19 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Overlay customizado para play -->
+                    <div class="video-overlay" id="videoOverlay">
+                        <div class="overlay-content">
+                            <h3>APERTE AQUI</h3>
+                            <h3>E ASSISTA</h3>
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>

@@ -410,12 +410,16 @@ document.addEventListener('DOMContentLoaded', function () {
         heroVideo.addEventListener('pause', function() {
             if (!heroVideo.ended) {
                 playPauseBtn.innerHTML = '<i class="fas fa-play"></i><span>Reproduzir</span>';
+                // Remover blur quando pausado
+                heroVideo.closest('.video-container').classList.remove('playing');
             }
         });
 
         // Quando o vídeo for reproduzido
         heroVideo.addEventListener('play', function() {
             playPauseBtn.innerHTML = '<i class="fas fa-pause"></i><span>Pausar</span>';
+            // Adicionar blur quando tocando
+            heroVideo.closest('.video-container').classList.add('playing');
         });
 
         // Quando o vídeo terminar
@@ -423,6 +427,8 @@ document.addEventListener('DOMContentLoaded', function () {
             videoOverlay.classList.remove('hidden');
             customControls.style.display = 'none';
             playPauseBtn.innerHTML = '<i class="fas fa-play"></i><span>Reproduzir</span>';
+            // Remover blur quando terminar
+            heroVideo.closest('.video-container').classList.remove('playing');
         });
 
         // Prevenir menu de contexto (clique direito) no vídeo

@@ -355,6 +355,29 @@ body {
     overflow: hidden;
     background: #0d1b3c;
     transform: none !important;
+    aspect-ratio: 9/16 !important;
+    max-width: 500px !important;
+    margin: 0 auto !important;
+}
+
+.video-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 75px;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.video-container.playing::after {
+    opacity: 1;
 }
 
 
@@ -364,7 +387,6 @@ body {
 .hero-video {
     width: 100%;
     height: 100%;
-    min-height: 700px;
     display: block;
     border-radius: 16px;
     max-width: 100%;
@@ -446,15 +468,7 @@ body {
     border: none;
 }
 
-/* Vídeo só mostra controles quando necessário */
-.hero-video {
-    background: #000;
-    width: 100%;
-    height: auto;
-    border-radius: 16px;
-    object-fit: cover;
-    max-height: 500px;
-}
+
 
 /* Video Overlay Customizado */
 .video-overlay {
@@ -1809,15 +1823,15 @@ body {
     .video-container {
         animation: none;
         margin: 20px auto;
-        max-width: 600px;
+        max-width: 350px;
         width: 100%;
+        aspect-ratio: 9/16;
     }
     
     .hero-video {
         width: 100%;
-        height: auto;
+        height: 100%;
         object-fit: cover;
-        max-height: 400px;
     }
     
     .hero-actions {
@@ -1902,21 +1916,17 @@ body {
     
     .video-container {
         margin: 20px auto;
-        max-width: 100%;
+        max-width: 300px;
         width: 100%;
+        aspect-ratio: 9/16;
+        border-radius: 12px;
+        order: 1;
     }
     
     .hero-video {
         width: 100%;
-        height: auto;
-        max-height: 350px;
-    }
-    
-    .video-container {
-        margin: 20px auto;
-        border-radius: 12px;
-        max-width: 100%;
-        order: 1;
+        height: 100%;
+        object-fit: cover;
     }
 
     .overlay-content h3 {
@@ -1964,8 +1974,8 @@ body {
     .video-section .video-container {
         margin: 0 16px;
         border-radius: 12px;
-        max-width: 400px;
-        max-height: 350px;
+        max-width: 300px;
+        aspect-ratio: 9/16;
     }
 
     .context {
@@ -2768,3 +2778,89 @@ h2 {
 .speaker-profile.animate-from-top {
     animation: slideInFromTop 1s ease-out forwards;
 }
+
+/* CSS para esconder elementos do YouTube */
+.youtube-clean {
+    position: relative;
+    overflow: hidden;
+}
+
+.youtube-clean iframe {
+    position: relative;
+    z-index: 1;
+}
+
+/* Esconde o logo do YouTube no canto inferior direito */
+.youtube-clean::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100px;
+    height: 30px;
+    background: linear-gradient(135deg, transparent 50%, #000 50%);
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Esconde elementos do topo do YouTube */
+.youtube-clean::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(180deg, #000 0%, transparent 100%);
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Esconde elementos do lado direito */
+.youtube-clean .hero-video {
+    position: relative;
+}
+
+.youtube-clean .hero-video::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, #000 100%);
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Responsividade para o CSS do YouTube */
+@media (max-width: 768px) {
+    .youtube-clean::after {
+        width: 80px;
+        height: 25px;
+    }
+    
+    .youtube-clean::before {
+        height: 30px;
+    }
+    
+    .youtube-clean .hero-video::after {
+        width: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .youtube-clean::after {
+        width: 60px;
+        height: 20px;
+    }
+    
+    .youtube-clean::before {
+        height: 25px;
+    }
+    
+    .youtube-clean .hero-video::after {
+        width: 30px;
+    }
+}
+
