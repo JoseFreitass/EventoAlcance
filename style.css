@@ -485,6 +485,8 @@ body {
     transition: all 0.3s ease;
     animation: overlayEntrance 1s ease-out 0.5s forwards;
     opacity: 0;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Animação de entrada do overlay */
@@ -543,6 +545,8 @@ body {
     transition: all 0.3s ease;
     box-shadow: 0 8px 25px rgba(1, 175, 236, 0.4);
     animation: playButtonGlow 2s ease-in-out infinite;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Animação de brilho para o botão play */
@@ -2202,14 +2206,22 @@ body {
     }
     
     .hero-video {
-        height: auto;
-        max-height: 300px;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        border-radius: 12px !important;
+        display: block !important;
     }
     
     .video-container {
-        margin: 15px auto;
-        max-width: 100%;
-        width: 100%;
+        margin: 8px auto !important;
+        max-width: 98vw !important;
+        width: 100% !important;
+        aspect-ratio: 9/16 !important;
+        min-height: 500px !important;
+        height: auto !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
     }
 
     .overlay-content h3 {
@@ -2262,10 +2274,14 @@ body {
     }
 
     .video-section .video-container {
-        margin: 0 12px;
-        border-radius: 8px;
-        max-width: 350px;
-        max-height: 300px;
+        margin: 8px auto !important;
+        max-width: 98vw !important;
+        width: 100% !important;
+        aspect-ratio: 9/16 !important;
+        min-height: 500px !important;
+        height: auto !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
     }
     
     .context {
@@ -2456,14 +2472,22 @@ body {
     }
     
     .hero-video {
-        height: auto;
-        max-height: 250px;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        border-radius: 12px !important;
+        display: block !important;
     }
     
     .video-container {
-        margin: 10px auto;
-        max-width: 100%;
-        width: 100%;
+        margin: 8px auto !important;
+        max-width: 98vw !important;
+        width: 100% !important;
+        aspect-ratio: 9/16 !important;
+        min-height: 500px !important;
+        height: auto !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
     }
 }
 
@@ -2861,6 +2885,38 @@ h2 {
     
     .youtube-clean .hero-video::after {
         width: 30px;
+    }
+}
+
+@media (max-width: 600px) {
+    .video-container,
+    .video-section .video-container {
+        margin: 8px auto !important;
+        max-width: 98vw !important;
+        width: 100% !important;
+        aspect-ratio: 9/16 !important;
+        min-height: 500px !important;
+        height: auto !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+    }
+    
+    .hero-video {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        border-radius: 12px !important;
+        display: block !important;
+    }
+    .hero-video {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        border-radius: 12px !important;
+    }
+    
+    .video-container::after {
+        height: 40px !important;
     }
 }
 

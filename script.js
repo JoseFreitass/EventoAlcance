@@ -338,8 +338,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const volumeSlider = document.getElementById('volumeSlider');
 
     if (videoOverlay && heroVideo && customControls) {
-        // Clique no overlay para iniciar o vídeo
-        videoOverlay.addEventListener('click', function() {
+        // Função para iniciar o vídeo
+        function startVideo() {
+            console.log('Função startVideo chamada');
+            
+            // Verificar se o vídeo está pronto
+            if (heroVideo.readyState < 2) {
+                console.log('Vídeo ainda não está pronto, aguardando...');
+                heroVideo.addEventListener('canplay', function() {
+                    console.log('Vídeo pronto para reprodução');
+                    startVideo();
+                }, { once: true });
+                return;
+            }
+            
             // Esconder o overlay
             videoOverlay.classList.add('hidden');
             
@@ -347,17 +359,51 @@ document.addEventListener('DOMContentLoaded', function () {
             customControls.style.display = 'flex';
             
             // Reproduzir vídeo
-            heroVideo.play().catch(e => {
+            heroVideo.play().then(() => {
+                console.log('Vídeo iniciado com sucesso');
+            }).catch(e => {
                 console.log('Erro ao reproduzir vídeo:', e);
                 // Se houver erro, mostrar overlay novamente
                 videoOverlay.classList.remove('hidden');
                 customControls.style.display = 'none';
             });
+        }
+
+        // Clique no overlay para iniciar o vídeo
+        videoOverlay.addEventListener('click', startVideo);
+        
+        // Touch events para mobile - melhorado
+        videoOverlay.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Touch start no overlay');
         });
+        
+        videoOverlay.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Touch end no overlay - iniciando vídeo');
+            startVideo();
+        });
+        
+        // Touch events específicos para o botão play
+        const playButtonElement = videoOverlay.querySelector('.play-button');
+        if (playButtonElement) {
+            playButtonElement.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+            
+            playButtonElement.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                startVideo();
+            });
+        }
 
         // Botão Play/Pause customizado
         if (playPauseBtn) {
-            playPauseBtn.addEventListener('click', function() {
+            function togglePlayPause() {
                 if (heroVideo.paused) {
                     heroVideo.play();
                     playPauseBtn.innerHTML = '<i class="fas fa-pause"></i><span>Pausar</span>';
@@ -365,6 +411,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     heroVideo.pause();
                     playPauseBtn.innerHTML = '<i class="fas fa-play"></i><span>Reproduzir</span>';
                 }
+            }
+            
+            playPauseBtn.addEventListener('click', togglePlayPause);
+            
+            // Touch events para mobile - melhorado
+            playPauseBtn.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+            
+            playPauseBtn.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                togglePlayPause();
             });
         }
 
