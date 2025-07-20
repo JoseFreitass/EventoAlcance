@@ -338,68 +338,116 @@ document.addEventListener('DOMContentLoaded', function () {
     const volumeSlider = document.getElementById('volumeSlider');
 
     if (videoOverlay && heroVideo && customControls) {
-        // Função para iniciar o vídeo
+        // Detectar se é mobile
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        // Função para iniciar o vídeo - melhorada para mobile
         function startVideo() {
-            console.log('Função startVideo chamada');
+            console.log('Função startVideo chamada - Mobile:', isMobile);
             
-            // Verificar se o vídeo está pronto
-            if (heroVideo.readyState < 2) {
-                console.log('Vídeo ainda não está pronto, aguardando...');
-                heroVideo.addEventListener('canplay', function() {
-                    console.log('Vídeo pronto para reprodução');
-                    startVideo();
-                }, { once: true });
-                return;
-            }
-            
-            // Esconder o overlay
-            videoOverlay.classList.add('hidden');
+            // Esconder o overlay primeiro
+            videoOverlay.style.display = 'none';
             
             // Mostrar controles customizados
             customControls.style.display = 'flex';
             
-            // Reproduzir vídeo
-            heroVideo.play().then(() => {
-                console.log('Vídeo iniciado com sucesso');
-            }).catch(e => {
-                console.log('Erro ao reproduzir vídeo:', e);
-                // Se houver erro, mostrar overlay novamente
-                videoOverlay.classList.remove('hidden');
-                customControls.style.display = 'none';
-            });
+            // Para mobile, definir volume como baixo para evitar problemas
+            if (isMobile) {
+                heroVideo.volume = 0.5;
+                heroVideo.muted = false;
+            }
+            
+            // Reproduzir vídeo com melhor tratamento de erro
+            const playPromise = heroVideo.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('Vídeo iniciado com sucesso');
+                    heroVideo.closest('.video-container').classList.add('playing');
+                }).catch(error => {
+                    console.log('Erro ao reproduzir vídeo:', error);
+                    
+                    // Fallback: mostrar controles nativos
+                    heroVideo.controls = true;
+                    customControls.style.display = 'none';
+                    
+                    // Tentar novamente sem autoplay
+                    setTimeout(() => {
+                        const secondAttempt = heroVideo.play();
+                        if (secondAttempt !== undefined) {
+                            secondAttempt.catch(() => {
+                                console.log('Segunda tentativa falhou, mostrando overlay novamente');
+                                videoOverlay.style.display = 'flex';
+                                heroVideo.controls = false;
+                            });
+                        }
+                    }, 500);
+                });
+            }
         }
 
-        // Clique no overlay para iniciar o vídeo
-        videoOverlay.addEventListener('click', startVideo);
-        
-        // Touch events para mobile - melhorado
-        videoOverlay.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('Touch start no overlay');
-        });
-        
-        videoOverlay.addEventListener('touchend', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('Touch end no overlay - iniciando vídeo');
+        // Função universal para clique/touch
+        function handleVideoStart(event) {
+            event.preventDefault();
+            event.stopPropagation();
             startVideo();
-        });
+        }
+
+        // Eventos unificados para desktop e mobile
+        videoOverlay.addEventListener('click', handleVideoStart);
+        videoOverlay.addEventListener('touchend', handleVideoStart);
         
         // Touch events específicos para o botão play
         const playButtonElement = videoOverlay.querySelector('.play-button');
         if (playButtonElement) {
-            playButtonElement.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            });
-            
-            playButtonElement.addEventListener('touchend', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                startVideo();
-            });
+            playButtonElement.addEventListener('click', handleVideoStart);
+            playButtonElement.addEventListener('touchend', handleVideoStart);
         }
+        
+        // Prevenir comportamento padrão em touch events
+        videoOverlay.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+        
+        // Carregar vídeo quando o usuário interagir pela primeira vez
+        let videoLoaded = false;
+        function loadVideoOnDemand() {
+            if (!videoLoaded) {
+                console.log('Carregando vídeo sob demanda...');
+                heroVideo.load();
+                videoLoaded = true;
+            }
+        }
+        
+        // Carregar vídeo quando o overlay for clicado pela primeira vez
+        videoOverlay.addEventListener('click', loadVideoOnDemand, { once: true });
+        videoOverlay.addEventListener('touchstart', loadVideoOnDemand, { once: true });
+        
+        // Timeout para mostrar fallback se o vídeo não carregar
+        const videoFallback = document.getElementById('videoFallback');
+        let fallbackTimeout;
+        
+        function showFallbackAfterTimeout() {
+            fallbackTimeout = setTimeout(() => {
+                if (heroVideo.readyState < 2) {
+                    console.log('Vídeo não carregou, mostrando fallback');
+                    if (videoFallback) {
+                        videoOverlay.style.display = 'none';
+                        videoFallback.style.display = 'flex';
+                    }
+                }
+            }, 10000); // 10 segundos
+        }
+        
+        // Cancelar timeout se o vídeo carregar
+        heroVideo.addEventListener('canplay', () => {
+            if (fallbackTimeout) {
+                clearTimeout(fallbackTimeout);
+            }
+        });
+        
+        // Iniciar timeout quando tentar carregar
+        heroVideo.addEventListener('loadstart', showFallbackAfterTimeout);
 
         // Botão Play/Pause customizado
         if (playPauseBtn) {
@@ -592,44 +640,50 @@ document.addEventListener('DOMContentLoaded', function () {
                 counter.setAttribute('data-original', counter.innerText);
             }
             
-            const target = parseInt(counter.innerText.replace(/[^\d]/g, ''));
+            const originalText = counter.getAttribute('data-original') || counter.innerText;
+            
+            // Verificar se o texto contém palavras (não é apenas número)
+            if (originalText.includes('mais de') || originalText.includes('mil') || originalText.includes('meses') || originalText.includes('R$') || originalText.includes('T')) {
+                // Não animar textos que contêm palavras
+                return;
+            }
+            
+            const target = parseInt(originalText.replace(/[^\d]/g, ''));
             if (target > 0) {
                 const increment = target / 100;
                 let current = 0;
 
                 const timer = setInterval(() => {
                     current += increment;
-                                    if (current >= target) {
-                    if (counter.classList.contains('stat-number')) {
-                        // Verificar se o texto original contém % ou +
-                        const originalText = counter.getAttribute('data-original') || counter.innerText;
-                        if (originalText.includes('%')) {
-                            counter.innerText = target + '%';
-                        } else if (originalText.includes('+')) {
-                            counter.innerText = '+' + target;
+                    if (current >= target) {
+                        if (counter.classList.contains('stat-number')) {
+                            // Verificar se o texto original contém % ou +
+                            if (originalText.includes('%')) {
+                                counter.innerText = target + '%';
+                            } else if (originalText.includes('+')) {
+                                counter.innerText = '+' + target;
+                            } else {
+                                counter.innerText = target;
+                            }
                         } else {
-                            counter.innerText = target;
+                            counter.innerText = target + (originalText.includes('M') ? 'M+' : '+');
                         }
+                        clearInterval(timer);
                     } else {
-                        counter.innerText = target + (counter.innerText.includes('M') ? 'M+' : '+');
-                    }
-                    clearInterval(timer);
-                } else {
-                    const displayValue = Math.floor(current);
-                    if (counter.classList.contains('stat-number')) {
-                        // Verificar se o texto original contém % ou +
-                        const originalText = counter.getAttribute('data-original') || counter.innerText;
-                        if (originalText.includes('%')) {
-                            counter.innerText = displayValue + '%';
-                        } else if (originalText.includes('+')) {
-                            counter.innerText = '+' + displayValue;
+                        const displayValue = Math.floor(current);
+                        if (counter.classList.contains('stat-number')) {
+                            // Verificar se o texto original contém % ou +
+                            if (originalText.includes('%')) {
+                                counter.innerText = displayValue + '%';
+                            } else if (originalText.includes('+')) {
+                                counter.innerText = '+' + displayValue;
+                            } else {
+                                counter.innerText = displayValue;
+                            }
                         } else {
-                            counter.innerText = displayValue;
+                            counter.innerText = displayValue + (originalText.includes('M') ? 'M+' : '+');
                         }
-                    } else {
-                        counter.innerText = displayValue + (counter.innerText.includes('M') ? 'M+' : '+');
                     }
-                }
                 }, 20);
             }
         });

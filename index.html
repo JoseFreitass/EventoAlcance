@@ -36,7 +36,7 @@
                 
                 <p class="hero-description">Uma manhã de imersão com especialistas renomados que vão explicar de forma direta os impactos práticos de uma nova legislação e como você pode usar isso como vantagem competitiva no seu negócio.</p>
                 <div class="hero-actions">
-                    <a href="https://sun.eduzz.com/39ZQR6XD9E" target="_blank" class="btn-primary-large cta-pulse">
+                    <a href="https://sun.eduzz.com/Z0B51GZ4WA" target="_blank" class="btn-primary-large cta-pulse">
                         <i class="fas fa-ticket-alt"></i>
                         Garantir Minha Vaga
                     </a>
@@ -56,15 +56,30 @@
                         poster="src/poster.png"
                         loop
                         playsinline
+                        webkit-playsinline
+                        muted
                         controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
                         disablePictureInPicture
-                        preload="metadata"
+                        preload="none"
                         oncontextmenu="return false;"
                         style="outline: none;"
+                        x-webkit-airplay="deny"
                     >
                         <source src="src/video.mp4" type="video/mp4">
                         <p>Seu navegador não suporta vídeos HTML5. <a href="src/video.mp4">Clique aqui para baixar o vídeo</a>.</p>
                     </video>
+                    
+                    <!-- Fallback para caso o vídeo não carregue -->
+                    <div class="video-fallback" id="videoFallback" style="display: none;">
+                        <div class="fallback-message">
+                            <h3>Problemas para carregar o vídeo?</h3>
+                            <p>Clique no botão abaixo para assistir:</p>
+                            <a href="src/video.mp4" target="_blank" class="btn-primary-large">
+                                <i class="fas fa-play"></i>
+                                Assistir Vídeo
+                            </a>
+                        </div>
+                    </div>
                     
                     <!-- Controles customizados embaixo do vídeo -->
                     <div class="custom-controls" id="customControls" style="display: none;">
@@ -100,7 +115,23 @@
                 </div>
             </div>
         </div>
+        <div class="container">
+            <div class="checkout-content">
+                <div class="checkout-text">
+                    <h2>Pronto para Garantir Sua Vaga?</h2>
+                    <p>Após assistir ao vídeo, você já entendeu a importância deste evento. Não perca a oportunidade de estar preparado para a Reforma Tributária 2025.</p>
+                </div>
+                <div class="checkout-action">
+                    <a href="https://sun.eduzz.com/Z0B51GZ4WA" target="_blank" class="btn-primary-massive cta-pulse">
+                        <i class="fas fa-credit-card"></i>
+                        Ir para o Checkout
+                    </a>
+                </div>
+            </div>
+        </div>
     </section>
+
+
 
     <!-- Context Section -->
     <section class="context" id="sobre">
@@ -123,8 +154,8 @@
                             <i class="fas fa-exclamation-triangle"></i>
                         </div>
                         <div class="stat-info">
-                            <span class="stat-number">87</span>
-                            <span class="stat-label">das empresas não estão preparadas</span>
+                            <span class="stat-number">mais de 100 mil</span>
+                            <span class="stat-label">EMPRESAS NÃO ESTÃO PREPARADAS</span>
                         </div>
                     </div>
                     <div class="stat-card">
@@ -133,7 +164,7 @@
                         </div>
                         <div class="stat-info">
                             <span class="stat-number">6 meses</span>
-                            <span class="stat-label">para implementação completa</span>
+                            <span class="stat-label">PARA IMPLEMENTAÇÃO COMPLETA</span>
                         </div>
                     </div>
                     <div class="stat-card">
@@ -142,7 +173,7 @@
                         </div>
                         <div class="stat-info">
                             <span class="stat-number">R$ 2.3T</span>
-                            <span class="stat-label">em arrecadação anual estimada</span>
+                            <span class="stat-label">EM ARRECADAÇÃO ANUAL ESTIMADA</span>
                         </div>
                     </div>
                 </div>
@@ -261,14 +292,11 @@
                 </div>
             </div>
             
-            <div class="program-note">
-                <div class="note-icon">
-                    <i class="fas fa-lightbulb"></i>
-                </div>
-                <div class="note-content">
-                    <h4>Programa Prático</h4>
-                    <p>Não é um evento teórico. É uma manhã focada em decisões práticas que você pode implementar no mesmo dia.</p>
-                </div>
+            <div class="speakers-cta">
+                <a href="https://sun.eduzz.com/Z0B51GZ4WA" target="_blank" class="btn-primary-large">
+                    <i class="fas fa-calendar-check"></i>
+                    Garantir Minha Vaga
+                </a>
             </div>
         </div>
     </section>
@@ -317,7 +345,7 @@
             </div>
             
             <div class="authorities-cta">
-                <a href="https://sun.eduzz.com/39ZQR6XD9E" target="_blank" class="btn-primary-large">
+                <a href="https://sun.eduzz.com/Z0B51GZ4WA" target="_blank" class="btn-primary-large">
                     <i class="fas fa-user-plus"></i>
                     Quero Participar
                 </a>
@@ -391,7 +419,7 @@
                     </div>
                 </div>
                 
-                <a href="https://sun.eduzz.com/39ZQR6XD9E" target="_blank" class="info-card clickable-card">
+                <a href="https://sun.eduzz.com/Z0B51GZ4WA" target="_blank" class="info-card clickable-card">
                     <div class="info-icon">
                         <i class="fas fa-ticket-alt"></i>
                     </div>

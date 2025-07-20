@@ -685,12 +685,147 @@ body {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
+/* Botão de Checkout */
+.checkout-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #1a2951 0%, #0d1b3c 50%, #051225 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.checkout-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(0, 230, 118, 0.1) 0%, rgba(0, 200, 83, 0.05) 100%);
+    animation: gradientShift 8s ease-in-out infinite;
+}
+
+.checkout-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.checkout-text h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #00e676, #00c853);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.checkout-text p {
+    font-size: 1.2rem;
+    color: #e0e0e0;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.checkout-action {
+    margin-top: 30px;
+}
+
 /* Video Section */
 .video-section {
     padding: 80px 0;
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0d1b3c 100%);
     position: relative;
     overflow: hidden;
+}
+
+/* Checkout dentro da seção de vídeo */
+.video-section .checkout-content {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+.video-section .checkout-text h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #00e676, #00c853);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+}
+
+.video-section .checkout-text p {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.video-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    z-index: 10;
+}
+
+.fallback-message {
+    text-align: center;
+    color: white;
+    padding: 40px;
+}
+
+.fallback-message h3 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: #f1f5f9;
+}
+
+.fallback-message p {
+    font-size: 16px;
+    margin-bottom: 24px;
+    color: #94a3b8;
+}
+
+.fallback-message .btn-primary-large {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #00e676, #00c853);
+    color: #0f172a;
+    padding: 16px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.fallback-message .btn-primary-large:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 230, 118, 0.4);
+}
+
+.video-section .checkout-action {
+    margin-top: 30px;
+    text-align: center;
 }
 
 /* Background animado com gradiente dinâmico */
@@ -1258,32 +1393,50 @@ body {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
-.program-note {
-    background: linear-gradient(135deg, #1e40af, #7c3aed);
-    color: white;
-    padding: 32px;
-    border-radius: 20px;
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
+.speakers-cta {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.note-icon i {
-    font-size: 32px;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.note-content h4 {
-    font-size: 20px;
+.speakers-cta .btn-primary-large {
+    background: linear-gradient(135deg, #00e676, #00c853);
+    border: none;
+    padding: 18px 40px;
+    font-size: 18px;
     font-weight: 600;
-    margin-bottom: 12px;
+    color: #0f172a;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 230, 118, 0.3);
+    position: relative;
+    overflow: hidden;
 }
 
-.note-content p {
-    font-size: 16px;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.9);
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+.speakers-cta .btn-primary-large::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.speakers-cta .btn-primary-large:hover::before {
+    left: 100%;
+}
+
+.speakers-cta .btn-primary-large:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 230, 118, 0.4);
+    background: linear-gradient(135deg, #00f57c, #00e676);
 }
 
 /* Final CTA */
@@ -1618,7 +1771,7 @@ body {
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    color: #1e40af;
+    color: #01AFEC;
     font-weight: 600;
 }
 
@@ -1882,40 +2035,70 @@ body {
         padding: 0 16px;
     }
     
+    .checkout-section {
+        padding: 20px 0;
+    }
+    
+    .checkout-text h2 {
+        font-size: 2rem;
+    }
+    
+    .checkout-text p {
+        font-size: 1rem;
+    }
+    
+    .video-section .checkout-content {
+        margin-top: 40px;
+        padding-top: 30px;
+        padding-bottom: 40px;
+    }
+    
+    .video-section .checkout-text h2 {
+        font-size: 1.8rem;
+    }
+    
+    .video-section .checkout-text p {
+        font-size: 1rem;
+    }
+    
     .ticker-content {
         animation-duration: 15s;
     }
     
     .hero {
-        padding: 100px 0 60px 0;
-        min-height: 90vh;
+        padding: 120px 0 80px 0;
+        min-height: 100vh;
+    }
+    
+    .hero-container {
+        min-height: 80vh;
     }
     
     .hero-content h1 {
-        font-size: 36px;
-        line-height: 1.2;
+        font-size: 48px;
+        line-height: 1.1;
     }
     
     .title-line-1 {
-        white-space: normal;
-        font-size: 36px;
+        white-space: nowrap;
+        font-size: 48px;
     }
     
     .hero-subtitle {
-        font-size: 18px;
+        font-size: 22px;
     }
     
     .hero-description {
-        font-size: 16px;
+        font-size: 18px;
     }
     
     .hero .event-info {
-        padding: 20px;
+        padding: 24px;
     }
     
     .btn-primary-large {
-        padding: 18px 24px;
-        font-size: 16px;
+        padding: 24px 48px;
+        font-size: 20px;
     }
     
     .video-container {
@@ -1972,7 +2155,7 @@ body {
     }
     
         .video-section {
-        padding: 60px 0;
+        padding: 10px 0;
     }
 
     .video-section .video-container {
@@ -2018,6 +2201,12 @@ body {
     
     .audience-card {
         padding: 24px;
+    }
+    
+    .placeholder-avatar,
+    .audience-photo {
+        width: 100px;
+        height: 100px;
     }
     
     .speakers {
@@ -2072,6 +2261,16 @@ body {
     
     .highlight-item span {
         font-size: 13px;
+    }
+    
+    .speakers-cta {
+        margin-top: 30px;
+        padding-top: 25px;
+    }
+    
+    .speakers-cta .btn-primary-large {
+        padding: 14px 28px;
+        font-size: 15px;
     }
     
     .choice-comparison {
@@ -2149,9 +2348,39 @@ body {
         padding: 0 12px;
     }
     
+    .checkout-section {
+        padding: 15px 0;
+    }
+    
+    .checkout-text h2 {
+        font-size: 1.8rem;
+    }
+    
+    .checkout-text p {
+        font-size: 0.95rem;
+    }
+    
+    .video-section .checkout-content {
+        margin-top: 30px;
+        padding-top: 25px;
+        padding-bottom: 30px;
+    }
+    
+    .video-section .checkout-text h2 {
+        font-size: 1.6rem;
+    }
+    
+    .video-section .checkout-text p {
+        font-size: 0.95rem;
+    }
+    
     .hero {
-        padding: 80px 0 40px 0;
+        padding: 80px 0 60px 0;
         min-height: 85vh;
+    }
+    
+    .hero-container {
+        min-height: 70vh;
     }
     
     .hero-container {
@@ -2270,7 +2499,7 @@ body {
     }
     
     .video-section {
-        padding: 50px 0;
+        padding: 0;
     }
 
     .video-section .video-container {
@@ -2319,6 +2548,12 @@ body {
     
     .audience-card {
         padding: 20px;
+    }
+    
+    .placeholder-avatar,
+    .audience-photo {
+        width: 80px;
+        height: 80px;
     }
     
     .audience-content h3 {
@@ -2416,8 +2651,12 @@ body {
     }
     
     .hero {
-        padding: 60px 0 30px 0;
+        padding: 60px 0 40px 0;
         min-height: 80vh;
+    }
+    
+    .hero-container {
+        min-height: 25vh;
     }
 
     .hero-container {
@@ -2428,6 +2667,8 @@ body {
     
     .hero-content h1 {
         font-size: 24px;
+        line-height: 1.3;
+        margin-bottom: 20px;
     }
     
     .title-line-1 {
@@ -2461,6 +2702,18 @@ body {
     
     .audience-card {
         padding: 16px;
+    }
+    
+    .placeholder-avatar,
+    .audience-photo {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .video-section .checkout-content {
+        margin-top: 25px;
+        padding-top: 20px;
+        padding-bottom: 25px;
     }
     
     .stat-card {
@@ -2716,6 +2969,16 @@ h2 {
     
     .highlight-item span {
         font-size: 10px;
+    }
+    
+    .speakers-cta {
+        margin-top: 20px;
+        padding-top: 15px;
+    }
+    
+    .speakers-cta .btn-primary-large {
+        padding: 10px 20px;
+        font-size: 13px;
     }
 }
 
