@@ -54,64 +54,18 @@
                         id="heroVideo" 
                         class="hero-video"
                         poster="src/poster.png"
-                        loop
-                        playsinline
-                        webkit-playsinline
-                        muted
-                        controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                        disablePictureInPicture
-                        preload="none"
-                        oncontextmenu="return false;"
-                        style="outline: none;"
-                        x-webkit-airplay="deny"
+                        controls
+                        preload="metadata"
                     >
                         <source src="src/video.mp4" type="video/mp4">
                         <p>Seu navegador não suporta vídeos HTML5. <a href="src/video.mp4">Clique aqui para baixar o vídeo</a>.</p>
                     </video>
                     
-                    <!-- Fallback para caso o vídeo não carregue -->
-                    <div class="video-fallback" id="videoFallback" style="display: none;">
-                        <div class="fallback-message">
-                            <h3>Problemas para carregar o vídeo?</h3>
-                            <p>Clique no botão abaixo para assistir:</p>
-                            <a href="src/video.mp4" target="_blank" class="btn-primary-large">
-                                <i class="fas fa-play"></i>
-                                Assistir Vídeo
-                            </a>
-                        </div>
+                    <!-- Botão simples de play -->
+                    <div class="simple-play-button" id="simplePlayButton">
+                        <i class="fas fa-play"></i>
+                        <span>Assistir Vídeo</span>
                     </div>
-                    
-                    <!-- Controles customizados embaixo do vídeo -->
-                    <div class="custom-controls" id="customControls" style="display: none;">
-                        <div class="controls-left">
-                            <button class="control-btn play-pause-btn" id="playPauseBtn">
-                                <i class="fas fa-pause"></i>
-                                <span>Pausar</span>
-                            </button>
-                        </div>
-                        <div class="controls-right">
-                            <button class="control-btn volume-btn" id="volumeBtn">
-                                <i class="fas fa-volume-up"></i>
-                                <span>Volume</span>
-                            </button>
-                            <div class="volume-slider-container">
-                                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="100">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Overlay customizado para play -->
-                    <div class="video-overlay" id="videoOverlay">
-                        <div class="overlay-content">
-                            <h3>APERTE AQUI</h3>
-                            <h3>E ASSISTA</h3>
-                            <div class="play-button">
-                                <i class="fas fa-play"></i>
-                            </div>
-                        </div>
-                    </div>
-
-
                 </div>
             </div>
         </div>
