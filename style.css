@@ -130,6 +130,81 @@ body {
     display: none;
 }
 
+/* Controle de volume */
+.volume-control {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 8px 12px;
+    border-radius: 25px;
+    z-index: 15;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.volume-control.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.volume-control i {
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.volume-control i:hover {
+    color: #00e676;
+}
+
+.volume-slider {
+    width: 80px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #00e676;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+    background: #00c853;
+    transform: scale(1.1);
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #00e676;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.volume-slider::-moz-range-thumb:hover {
+    background: #00c853;
+    transform: scale(1.1);
+}
+
 .btn-primary::before {
     content: '';
     position: absolute;
@@ -3238,6 +3313,16 @@ h2 {
 
     .simple-play-button i {
         font-size: 16px !important;
+    }
+    
+    .volume-control {
+        bottom: 15px !important;
+        right: 15px !important;
+        padding: 6px 10px !important;
+    }
+    
+    .volume-slider {
+        width: 60px !important;
     }
     
     .video-container::after {
