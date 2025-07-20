@@ -1,5 +1,7 @@
 // Script simplificado para o vídeo
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Script de vídeo carregado');
+    
     const video = document.getElementById('heroVideo');
     const playButton = document.getElementById('simplePlayButton');
     const darkOverlay = document.getElementById('videoDarkOverlay');
@@ -7,17 +9,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const volumeSlider = document.getElementById('volumeSlider');
     const volumeIcon = document.getElementById('volumeIcon');
     
+    console.log('Elementos encontrados:', {
+        video: !!video,
+        playButton: !!playButton,
+        darkOverlay: !!darkOverlay,
+        volumeControl: !!volumeControl,
+        volumeSlider: !!volumeSlider,
+        volumeIcon: !!volumeIcon
+    });
+    
     if (video && playButton && darkOverlay && volumeControl && volumeSlider && volumeIcon) {
+        console.log('Todos os elementos encontrados, configurando eventos');
+        
         // Quando clicar no botão de play
         playButton.addEventListener('click', function() {
-            video.play();
-            playButton.classList.add('hidden');
-            darkOverlay.classList.add('hidden');
-            volumeControl.classList.add('visible');
+            console.log('Botão play clicado');
+            video.play().then(() => {
+                console.log('Vídeo iniciado com sucesso');
+                playButton.classList.add('hidden');
+                darkOverlay.classList.add('hidden');
+                volumeControl.classList.add('visible');
+            }).catch(error => {
+                console.error('Erro ao iniciar vídeo:', error);
+            });
         });
         
         // Quando o vídeo terminar, mostrar o botão e overlay novamente
         video.addEventListener('ended', function() {
+            console.log('Vídeo terminou');
             playButton.classList.remove('hidden');
             darkOverlay.classList.remove('hidden');
             volumeControl.classList.remove('visible');
@@ -25,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Quando o vídeo for pausado, mostrar o botão e overlay novamente
         video.addEventListener('pause', function() {
+            console.log('Vídeo pausado');
             playButton.classList.remove('hidden');
             darkOverlay.classList.remove('hidden');
             volumeControl.classList.remove('visible');
@@ -32,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Quando o vídeo estiver tocando, esconder o botão e overlay
         video.addEventListener('play', function() {
+            console.log('Vídeo tocando');
             playButton.classList.add('hidden');
             darkOverlay.classList.add('hidden');
             volumeControl.classList.add('visible');
@@ -70,6 +91,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Inicializar volume
         updateVolumeIcon(1);
+        console.log('Configuração do vídeo concluída');
+    } else {
+        console.error('Alguns elementos não foram encontrados');
     }
 }); 
 
