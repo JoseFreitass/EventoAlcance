@@ -130,6 +130,40 @@ body {
     display: none;
 }
 
+/* Botão de pause */
+.pause-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.pause-button:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.pause-button.visible {
+    display: flex;
+}
+
+.pause-button i {
+    color: white;
+}
+
 /* Controle de volume */
 .volume-control {
     position: absolute;
@@ -3323,6 +3357,12 @@ h2 {
     
     .volume-slider {
         width: 60px !important;
+    }
+    
+    .pause-button {
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 20px !important;
     }
     
     .video-container::after {

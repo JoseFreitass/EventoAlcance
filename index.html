@@ -55,6 +55,9 @@
                         class="hero-video"
                         poster="src/poster.png"
                         preload="metadata"
+                        playsinline
+                        webkit-playsinline
+                        muted
                     >
                         <source src="src/video.mp4" type="video/mp4">
                         <p>Seu navegador não suporta vídeos HTML5. <a href="src/video.mp4">Clique aqui para baixar o vídeo</a>.</p>
@@ -67,6 +70,11 @@
                     <div class="simple-play-button" id="simplePlayButton">
                         <i class="fas fa-play"></i>
                         <span>Assistir Vídeo</span>
+                    </div>
+                    
+                    <!-- Botão de pause -->
+                    <div class="pause-button" id="pauseButton">
+                        <i class="fas fa-pause"></i>
                     </div>
                     
                     <!-- Controle de volume -->
