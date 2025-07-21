@@ -1844,6 +1844,25 @@ body {
 
 .authority-image {
     margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.authority-image::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 1px;
+    background: rgba(1, 175, 236, 0.6);
+}
+
+.authority-content {
+    text-align: center;
 }
 
 .authority-content h3 {
@@ -1851,6 +1870,7 @@ body {
     font-weight: 700;
     color: #f1f5f9;
     margin-bottom: 8px;
+    text-align: center;
 }
 
 .authority-role {
@@ -1860,6 +1880,7 @@ body {
     margin-bottom: 16px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    text-align: center;
 }
 
 .authority-description {
@@ -3368,5 +3389,58 @@ h2 {
     .video-container::after {
         height: 40px !important;
     }
+}
+
+.authority-question {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    color: #00bfff;
+    background: #22304a;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 0 auto;
+    border: 3px solid rgba(1, 175, 236, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.authority-box {
+    border: 1.5px solid rgba(1,175,236,0.18);
+    border-radius: 18px;
+    padding: 32px 24px 24px 24px;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    box-shadow: none;
+    transition: border-color 0.3s;
+    max-width: 340px;
+    margin: 0 auto;
+}
+.authority-box:hover {
+    border-color: #01afec;
+}
+.authority-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(1, 175, 236, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    margin-bottom: 18px;
+    display: block;
+}
+.authority-divider {
+    width: 60px;
+    border: none;
+    border-top: 2px solid #01afec;
+    margin: 0 0 18px 0;
+    opacity: 0.5;
+}
+.authority-content {
+    text-align: center;
 }
 

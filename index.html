@@ -50,38 +50,16 @@
         <div class="container">
             <div class="video-section-content">
                 <div class="video-container">
-                    <video 
+                    <iframe 
                         id="heroVideo" 
                         class="hero-video"
-                        poster="src/poster.png"
-                        preload="metadata"
-                        playsinline
-                        webkit-playsinline
-                        muted
-                    >
-                        <source src="src/video.mp4" type="video/mp4">
-                        <p>Seu navegador não suporta vídeos HTML5. <a href="src/video.mp4">Clique aqui para baixar o vídeo</a>.</p>
-                    </video>
-                    
-                    <!-- Overlay escuro sobre o vídeo -->
-                    <div class="video-dark-overlay" id="videoDarkOverlay"></div>
-                    
-                    <!-- Botão simples de play -->
-                    <div class="simple-play-button" id="simplePlayButton">
-                        <i class="fas fa-play"></i>
-                        <span>Assistir Vídeo</span>
-                    </div>
-                    
-                    <!-- Botão de pause -->
-                    <div class="pause-button" id="pauseButton">
-                        <i class="fas fa-pause"></i>
-                    </div>
-                    
-                    <!-- Controle de volume -->
-                    <div class="volume-control" id="volumeControl">
-                        <i class="fas fa-volume-up" id="volumeIcon"></i>
-                        <input type="range" id="volumeSlider" min="0" max="100" value="100" class="volume-slider">
-                    </div>
+                        src="https://www.youtube.com/embed/FOQysS821Kw?rel=0&modestbranding=1&showinfo=0&disablekb=1&fs=0&iv_load_policy=3&cc_load_policy=0&autohide=1"
+                        title="Reforma Tributária 2025 - Evento Exclusivo"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        style="width: 100%; height: 100%; border-radius: 16px;"
+                    ></iframe>
                 </div>
             </div>
         </div>
@@ -282,34 +260,28 @@
             <div class="authorities-grid">
                 <div class="authority-card">
                     <div class="authority-image">
-                        <div class="placeholder-avatar authority-1"></div>
+                        <img src="src/DR EDUARDO MUNHOZ.png" alt="DR EDUARDO MUNHOZ" class="authority-photo">
                     </div>
                     <div class="authority-content">
-                        <h3>Nome da Autoridade 1</h3>
-                        <p class="authority-role">Cargo/Função</p>
-                        <p class="authority-description">Breve descrição da experiência e contribuição para o evento.</p>
+                        <h3>DR EDUARDO MUNHOZ</h3>
+                        <p class="authority-role">Presidente da OAB Votorantim</p>
                     </div>
                 </div>
-                
                 <div class="authority-card">
                     <div class="authority-image">
-                        <div class="placeholder-avatar authority-2"></div>
+                        <img src="src/DR JOÃO PAULO MILANO.png" alt="DR JOÃO PAULO MILANO" class="authority-photo">
                     </div>
                     <div class="authority-content">
-                        <h3>Nome da Autoridade 2</h3>
-                        <p class="authority-role">Cargo/Função</p>
-                        <p class="authority-description">Breve descrição da experiência e contribuição para o evento.</p>
+                        <h3>DR JOÃO PAULO MILANO</h3>
+                        <p class="authority-role">Presidente da OAB Sorocaba</p>
                     </div>
                 </div>
-                
                 <div class="authority-card">
                     <div class="authority-image">
-                        <div class="placeholder-avatar authority-3"></div>
+                        <div class="authority-question"><b>?</b></div>
                     </div>
                     <div class="authority-content">
-                        <h3>Nome da Autoridade 3</h3>
-                        <p class="authority-role">Cargo/Função</p>
-                        <p class="authority-description">Breve descrição da experiência e contribuição para o evento.</p>
+                        <h3>EM BREVE</h3>
                     </div>
                 </div>
             </div>
