@@ -15,6 +15,11 @@ class MetaPixelManager {
 
     // Rastrear evento de compra (Purchase)
     trackPurchase(value, currency = 'BRL', additionalData = {}) {
+        if (typeof fbq === 'undefined' || !fbq) {
+            console.error('fbq not available for Purchase event');
+            return;
+        }
+        
         const eventData = {
             content_name: 'Evento Reforma Tributária 2025',
             content_category: 'Evento',
@@ -32,6 +37,11 @@ class MetaPixelManager {
 
     // Rastrear evento de lead
     trackLead(value = 1, currency = 'BRL', additionalData = {}) {
+        if (typeof fbq === 'undefined' || !fbq) {
+            console.error('fbq not available for Lead event');
+            return;
+        }
+        
         const eventData = {
             content_name: 'Evento Reforma Tributária 2025',
             content_category: 'Evento',
@@ -141,10 +151,20 @@ class MetaPixelManager {
     }
 }
 
-// Inicializar quando o DOM estiver pronto
+// Função para aguardar o fbq estar disponível
+function waitForFbq() {
+    if (typeof fbq !== 'undefined' && fbq) {
+        window.metaPixelManager = new MetaPixelManager();
+        window.metaPixelManager.init();
+        console.log('Meta Pixel Manager initialized with fbq available');
+    } else {
+        setTimeout(waitForFbq, 100);
+    }
+}
+
+// Inicializar quando o DOM estiver pronto e fbq disponível
 document.addEventListener('DOMContentLoaded', function() {
-    window.metaPixelManager = new MetaPixelManager();
-    window.metaPixelManager.init();
+    waitForFbq();
 });
 
 // Exemplo de uso para eventos externos (ex: após confirmação de pagamento)
