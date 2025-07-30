@@ -1,7 +1,7 @@
 // Meta Pixel Events Manager
 class MetaPixelManager {
     constructor() {
-        this.pixelId = 'EAFZAadB3BAUMBPIFZCEX4GoeCZBUzAq8bCrW9bEdZCgvqIrZBgE8XZC8PMnZCbxCbZC1siNCCBoi5lt49iDZAuOuXGMW0TTOnKVaKWdzKxmAFjRG0UzBfVWmNIhZCigLwl3OBsrNFdgRYPweQckxFeVqacEiwV7X3bB4f9ZBg72bMzjsbWsyWjSjBLEDHrSFI3x7xgLngZDZD';
+        this.pixelId = '599128056601337';
         this.events = {
             pageView: 'PageView',
             lead: 'Lead',
