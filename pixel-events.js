@@ -1,7 +1,7 @@
 // Meta Pixel Events Manager
 class MetaPixelManager {
     constructor() {
-        this.pixelId = 'EAFZAadB3BAUMBPBwBftBWy3p4ZAPsbFM1wUu7G1PGqBwf6zqc9mY2CXEGdVZALMPvhtRTy0R2ZB6d0gSrPc6JCg0vOrylMfX2ABiZA58h92w97E0cAqZCIQ2Ry2XYDKgaggNCRswgJ6DLWXIFwHK7btr9ptAHHF0TckADoIbo5uhZC04W4mNdQWzmlV8LIkBucSiwZDZD';
+        this.pixelId = 'EAFZAadB3BAUMBPIFZCEX4GoeCZBUzAq8bCrW9bEdZCgvqIrZBgE8XZC8PMnZCbxCbZC1siNCCBoi5lt49iDZAuOuXGMW0TTOnKVaKWdzKxmAFjRG0UzBfVWmNIhZCigLwl3OBsrNFdgRYPweQckxFeVqacEiwV7X3bB4f9ZBg72bMzjsbWsyWjSjBLEDHrSFI3x7xgLngZDZD';
         this.events = {
             pageView: 'PageView',
             lead: 'Lead',
@@ -21,6 +21,8 @@ class MetaPixelManager {
             value: value,
             currency: currency,
             content_type: 'product',
+            pixel_source: 'reforma_tributaria_2025',
+            event_id: Date.now().toString(),
             ...additionalData
         };
         
@@ -35,6 +37,8 @@ class MetaPixelManager {
             content_category: 'Evento',
             value: value,
             currency: currency,
+            pixel_source: 'reforma_tributaria_2025',
+            event_id: Date.now().toString(),
             ...additionalData
         };
         
